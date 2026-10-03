@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FarmDirect - Farmer to Consumer</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{background:#f5f8f3;color:#203322}
+button{cursor:pointer;border:0}
+.hidden{display:none!important}
+.btn{background:#2e7d32;color:#fff;padding:12px 20px;border-radius:8px;font-weight:700}
+.btn:hover{background:#1b5e20}
+.outline{background:#fff;color:#2e7d32;border:2px solid #2e7d32;padding:10px 18px;border-radius:8px;font-weight:700}
+#profile{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:30px;background:linear-gradient(#18501dcc,#18501dcc),url("https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=1600&q=80") center/cover}
+.profile-wrap{width:min(1000px,100%);text-align:center;color:#fff}
+.logo{font-size:42px;font-weight:800;margin-bottom:10px}.tag{font-size:18px;margin-bottom:40px}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.card{background:#fffffff7;color:#203322;padding:42px 28px;border-radius:20px;box-shadow:0 15px 40px #0003;transition:.25s}.card:hover{transform:translateY(-6px)}
+.icon{font-size:65px;margin-bottom:15px}.card h2{color:#245b28;margin-bottom:10px}.card p{color:#666;line-height:1.6;margin-bottom:22px}
+.nav{height:70px;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 5%;box-shadow:0 2px 12px #00000012;position:sticky;top:0;z-index:5}
+.brand{font-size:24px;font-weight:800;color:#2e7d32}.nav-actions{display:flex;gap:10px}
+.hero{max-width:1200px;margin:28px auto;padding:55px;border-radius:20px;color:#fff;background:linear-gradient(90deg,#19501ee6,#19501e55),url("https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1600&q=80") center/cover}
+.hero h1{font-size:42px;max-width:650px;margin-bottom:14px}.hero p{font-size:18px;max-width:620px;line-height:1.6}
+.section{max-width:1200px;margin:35px auto;padding:0 20px}.section-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}.section-title h2{color:#245b28}
+.categories{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.category{background:#fff;padding:28px;text-align:center;border-radius:15px;box-shadow:0 5px 20px #00000012;cursor:pointer;transition:.2s}.category:hover{transform:translateY(-4px)}.category .icon{font-size:48px}.category h3{color:#245b28;margin:8px}.category p{color:#777}
+.products{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}.product{background:#fff;border-radius:15px;overflow:hidden;box-shadow:0 5px 20px #00000012}.product img{width:100%;height:180px;object-fit:cover}.product-body{padding:16px}.product h3{color:#245b28;margin-bottom:7px}.muted{color:#777;font-size:13px;margin:5px 0}.price{font-size:20px;font-weight:800;color:#2e7d32;margin:12px 0}.product .btn{width:100%}
+.auth{min-height:calc(100vh - 70px);display:flex;justify-content:center;align-items:center;padding:30px}.formbox{width:min(500px,100%);background:#fff;padding:35px;border-radius:15px;box-shadow:0 8px 30px #00000012}.formbox h2{color:#245b28;margin-bottom:8px}.formbox>p{color:#777;margin-bottom:22px}.group{margin-bottom:15px}.group label{display:block;font-weight:700;margin-bottom:6px}.group input,.group textarea,.group select{width:100%;padding:12px;border:1px solid #ccc;border-radius:7px}.group textarea{min-height:90px;resize:vertical}.formbox .btn{width:100%}.switch{text-align:center;margin-top:18px;color:#666}.switch span{color:#2e7d32;font-weight:700;cursor:pointer}
+.dashboard{max-width:1200px;margin:30px auto;padding:0 20px}.dashhead{background:linear-gradient(135deg,#2e7d32,#66bb6a);color:#fff;padding:32px;border-radius:18px;margin-bottom:24px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}.dashcard{background:#fff;padding:26px;border-radius:15px;box-shadow:0 5px 20px #00000012}.dashcard h2{color:#245b28;margin-bottom:18px}.address{background:#f2f8f2;padding:16px;border-radius:10px;line-height:1.6;margin-bottom:15px}
+.cart{max-width:900px;margin:35px auto;padding:20px}.cart-item{background:#fff;padding:18px;border-radius:12px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;gap:15px;box-shadow:0 3px 15px #0000000d}.total{background:#fff;padding:22px;border-radius:12px;text-align:right}.total h2{color:#2e7d32;margin-bottom:15px}
+.toast{position:fixed;right:20px;bottom:20px;background:#245b28;color:#fff;padding:14px 20px;border-radius:8px;display:none;z-index:20}
+@media(max-width:900px){.products{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}}
+@media(max-width:650px){.cards,.categories,.products{grid-template-columns:1fr}.hero{margin:15px;padding:30px}.hero h1{font-size:30px}.nav{padding:0 15px}.brand{font-size:19px}}
+</style>
+</head>
+<body>
+
+<div id="profile">
+<div class="profile-wrap">
+<div class="logo">🌱 FarmDirect</div>
+<div class="tag">Fresh from Farmers. Directly to Consumers.</div>
+<div class="cards">
+<div class="card"><div class="icon">🛒</div><h2>Consumer</h2><p>Browse fresh vegetables, fruits and milk & dairy products directly from farmers.</p><button class="btn" onclick="consumer()">Continue as Consumer</button></div>
+<div class="card"><div class="icon">👨‍🌾</div><h2>Farmer</h2><p>Register, manage products, set selling prices and manage your farmer profile.</p><button class="btn" onclick="farmer()">Continue as Farmer</button></div>
+</div>
+</div>
+</div>
+
+<div id="consumerPage" class="hidden">
+<nav class="nav"><div class="brand">🌱 FarmDirect</div><div class="nav-actions"><button class="outline" onclick="cartPage()">🛒 Cart (<span id="count">0</span>)</button><button class="outline" onclick="home()">Home</button></div></nav>
+<section class="hero"><h1>Fresh Products Directly From Farmers</h1><p>Buy fresh vegetables, fruits and milk & dairy products directly from local farmers.</p></section>
+<section class="section"><div class="section-title"><h2>Shop by Category</h2></div><div class="categories">
+<div class="category" onclick="filter('Vegetables')"><div class="icon">🥬</div><h3>Vegetables</h3><p>Fresh farm vegetables</p></div>
+<div class="category" onclick="filter('Fruits')"><div class="icon">🍎</div><h3>Fruits</h3><p>Fresh seasonal fruits</p></div>
+<div class="category" onclick="filter('Dairy')"><div class="icon">🥛</div><h3>Milk & Dairy</h3><p>Fresh milk and dairy products</p></div>
+</div></section>
+<section class="section"><div class="section-title"><h2 id="heading">Available Products</h2><button class="outline" onclick="filter('All')">Show All</button></div><div id="products" class="products"></div></section>
+</div>
+
+<div id="cartPage" class="hidden">
+<nav class="nav"><div class="brand">🌱 FarmDirect</div><button class="outline" onclick="consumer()">Continue Shopping</button></nav>
+<div class="cart"><h1 style="margin-bottom:22px">🛒 Your Cart</h1><div id="cartItems"></div><div id="total" class="total"></div></div>
+</div>
+
+<div id="farmerAuth" class="hidden">
+<nav class="nav"><div class="brand">🌱 FarmDirect</div><button class="outline" onclick="home()">Back</button></nav>
+<div id="register" class="auth"><div class="formbox"><h2>👨‍🌾 Farmer Registration</h2><p>Create your farmer account.</p>
+<form onsubmit="register(event)">
+<div class="group"><label>Name</label><input id="fname" required></div>
+<div class="group"><label>Mobile</label><input id="fmobile" type="tel" required></div>
+<div class="group"><label>Email</label><input id="femail" type="email" required></div>
+<div class="group"><label>Password</label><input id="fpass" type="password" required></div>
+<div class="group"><label>Address</label><textarea id="faddress" required></textarea></div>
+<button class="btn">Register</button></form><div class="switch">Already registered? <span onclick="loginForm()">Login</span></div></div></div>
+<div id="login" class="auth hidden"><div class="formbox"><h2>🔐 Farmer Login</h2><p>Login to manage your products.</p>
+<form onsubmit="login(event)"><div class="group"><label>Email</label><input id="lemail" type="email" required></div><div class="group"><label>Password</label><input id="lpass" type="password" required></div><button class="btn">Login</button></form><div class="switch">Don't have an account? <span onclick="registerForm()">Register</span></div></div></div>
+</div>
+
+<div id="dashboard" class="hidden">
+<nav class="nav"><div class="brand">🌱 FarmDirect</div><button class="outline" onclick="home()">Logout</button></nav>
+<div class="dashboard"><div class="dashhead"><h1>Welcome, <span id="dname"></span> 👨‍🌾</h1><p>Manage your products and selling prices.</p></div>
+<div class="grid">
+<div class="dashcard"><h2>➕ Add Product</h2><form onsubmit="addProduct(event)">
+<div class="group"><label>Product Name</label><input id="pname" required></div>
+<div class="group"><label>Category</label><select id="pcat" required><option value="">Select category</option><option>Vegetables</option><option>Fruits</option><option>Dairy</option></select></div>
+<div class="group"><label>Selling Price</label><input id="pprice" type="number" required></div>
+<div class="group"><label>Available Quantity</label><input id="pqty" placeholder="Example: 100 kg" required></div>
+<button class="btn">Add Product</button></form></div>
+<div class="dashcard"><h2>📍 Farmer Profile</h2><div class="address"><b>Name:</b><div id="pnameView"></div><br><b>Mobile:</b><div id="pmobileView"></div><br><b>Address:</b><div id="paddressView"></div></div><button class="outline" onclick="editAddress()">✏️ Edit Address</button></div>
+</div>
+<div class="dashcard" style="margin-top:22px"><h2>📦 My Products</h2><div id="myProducts"></div></div>
+</div></div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+const products=[
+{id:1,name:"Fresh Tomatoes",cat:"Vegetables",price:40,unit:"kg",farmer:"Ravi Kumar",loc:"Guntur",img:"https://images.unsplash.com/photo-1546094096-0df4bcaaa337?auto=format&fit=crop&w=600&q=80"},
+{id:2,name:"Fresh Spinach",cat:"Vegetables",price:30,unit:"kg",farmer:"Suresh",loc:"Hyderabad",img:"https://images.unsplash.com/photo-1576045057995-568f588f82fb?auto=format&fit=crop&w=600&q=80"},
+{id:3,name:"Fresh Apples",cat:"Fruits",price:120,unit:"kg",farmer:"Ramesh",loc:"Himachal Pradesh",img:"https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&w=600&q=80"},
+{id:4,name:"Fresh Bananas",cat:"Fruits",price:60,unit:"dozen",farmer:"Krishna",loc:"Vijayawada",img:"https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&w=600&q=80"},
+{id:5,name:"Fresh Milk",cat:"Dairy",price:55,unit:"litre",farmer:"Mohan",loc:"Warangal",img:"https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=600&q=80"},
+{id:6,name:"Fresh Curd",cat:"Dairy",price:70,unit:"500g",farmer:"Anil",loc:"Nalgonda",img:"https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=600&q=80"}];
+let cart=[], farmerData=null;
+
+function hide(){document.querySelectorAll("body>div").forEach(x=>{if(x.id!="toast")x.classList.add("hidden")})}
+function home(){hide();document.getElementById("profile").classList.remove("hidden")}
+function consumer(){hide();document.getElementById("consumerPage").classList.remove("hidden");render(products)}
+function farmer(){hide();document.getElementById("farmerAuth").classList.remove("hidden");registerForm()}
+function registerForm(){document.getElementById("register").classList.remove("hidden");document.getElementById("login").classList.add("hidden")}
+function loginForm(){document.getElementById("register").classList.add("hidden");document.getElementById("login").classList.remove("hidden")}
+function render(arr){document.getElementById("products").innerHTML=arr.map(p=>`<div class="product"><img src="${p.img}"><div class="product-body"><h3>${p.name}</h3><div class="muted">👨‍🌾 ${p.farmer}</div><div class="muted">📍 ${p.loc}</div><div class="price">₹${p.price} / ${p.unit}</div><button class="btn" onclick="add(${p.id})">Add to Cart</button></div></div>`).join("")}
+function filter(c){let a=c=="All"?products:products.filter(p=>p.cat==c);document.getElementById("heading").innerText=c=="Dairy"?"Milk & Dairy Products":c=="All"?"Available Products":c;render(a)}
+function add(id){cart.push(products.find(p=>p.id==id));document.getElementById("count").innerText=cart.length;toast("Product added to cart")}
+function cartPage(){hide();document.getElementById("cartPage").classList.remove("hidden");let box=document.getElementById("cartItems"),total=cart.reduce((s,p)=>s+p.price,0);box.innerHTML=cart.length?cart.map((p,i)=>`<div class="cart-item"><div><b>${p.name}</b><div class="muted">${p.cat}</div></div><strong>₹${p.price}</strong><button class="outline" onclick="removeCart(${i})">Remove</button></div>`).join(""):"<div class='dashcard'><h2>Your cart is empty</h2></div>";document.getElementById("total").innerHTML=cart.length?`<h2>Total: ₹${total}</h2><button class="btn" onclick="order()">Place Order</button>`:""}
+function removeCart(i){cart.splice(i,1);document.getElementById("count").innerText=cart.length;cartPage()}
+function order(){alert("Order placed successfully! This frontend demo will later be connected to the Python backend.");cart=[];document.getElementById("count").innerText=0;cartPage()}
+function register(e){e.preventDefault();farmerData={name:fname.value,mobile:fmobile.value,email:femail.value,password:fpass.value,address:faddress.value};toast("Registration successful");setTimeout(loginForm,500)}
+function login(e){e.preventDefault();if(!farmerData||lemail.value!=farmerData.email||lpass.value!=farmerData.password){toast("Invalid email or password");return}dashboard()}
+function dashboard(){hide();document.getElementById("dashboard").classList.remove("hidden");dname.innerText=farmerData.name;pnameView.innerText=farmerData.name;pmobileView.innerText=farmerData.mobile;paddressView.innerText=farmerData.address;renderMy()}
+function addProduct(e){e.preventDefault();let p={id:Date.now(),name:pname.value,cat:pcat.value,price:Number(pprice.value),unit:pqty.value,farmer:farmerData.name,loc:farmerData.address,img:"https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=600&q=80"};products.push(p);e.target.reset();renderMy();toast("Product added successfully")}
+function renderMy(){let a=products.filter(p=>p.farmer==farmerData.name);document.getElementById("myProducts").innerHTML=a.length?a.map(p=>`<div class="cart-item"><div><b>${p.name}</b><div class="muted">${p.cat} • ${p.unit}</div></div><strong>₹${p.price}</strong></div>`).join(""):"<p class='muted'>No products added yet.</p>"}
+function editAddress(){let a=prompt("Enter your new address:",farmerData.address);if(a&&a.trim()){farmerData.address=a.trim();paddressView.innerText=farmerData.address;toast("Address updated")}}
+function toast(m){let t=document.getElementById("toast");t.innerText=m;t.style.display="block";setTimeout(()=>t.style.display="none",2200)}
+</script>
+</body>
+</html>
